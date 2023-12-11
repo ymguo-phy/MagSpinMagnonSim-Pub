@@ -1,0 +1,47 @@
+
+    //Specify output format
+    OutputFormat = OVF2_TEXT
+
+    setgridsize(30,30,2) //area of free layer=900nm2
+    setcellsize(1e-9,1e-9,0.5e-9)
+    setpbc(0,0,0)
+
+    //setregion
+
+
+
+    Msat = 1e6 //1000emu/cm^3=10e6A/m
+    Aex = 15e-12
+    Ku1 = 0.8e6 //efective perpendicular anisotropy constant 
+    //K = 2e5 erg/cm  1st order uniaxial anisotropy constant (J/m3)
+    AnisU = vector(0,0,1) // z-direction
+    alpha = 0.005 //Gilbert damping alpha = 0.005
+    m=uniform(0,0,-1)
+
+    Bdc :=0.03   //External magnetic feld 300Oe on x direction
+    //Static field
+    B_ext = vector(Bdc, 0, 0) //Use to enhance the switch for x+  enhance to switch
+
+    relax()
+
+    //Add SOT
+    // Define constants
+    AlphaH := 0.3 //AlphaH equal to the theta jD
+    SOTxi:=-2
+    Pol = AlphaH
+    Lambda=1
+    Epsilonprime = alphaH/2 * SOTxi
+    Fixedlayer = vector(0,-1,0) // p
+    J=vector(0,0,0)
+    autosave(m,1e-10)
+    tableAutosave(1e-11)
+    run(0.5e-9)
+    J=vector(0,0,abs(12*1e11))
+    autosave(m,1e-10)
+    tableAutosave(1e-11)
+    run(10*1e-9)
+    J=vector(0,0,0)
+    autosave(m,1e-10)
+    tableAutosave(1e-11)
+    run(10e-9)
+    
